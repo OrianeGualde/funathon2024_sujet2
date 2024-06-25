@@ -6,8 +6,8 @@ import_airport_data <- function(list_files){
                     APT_NOM = col_character(),
                     APT_ZON = col_character(),
                     .default = col_double()
-                  ))
-  clean_dataframe(df)
+                  )) 
+  df <- clean_dataframe(df)
   return(df)
 }
 
@@ -26,8 +26,8 @@ import_compagnies_data <- function(list_files){
                     #CIE_PEQT 
                     #CIE_VOL 
                     .default = col_double()
-                  ))
-  clean_dataframe(df)
+                  )) 
+  df <- clean_dataframe(df)
   return(df)
 }
 
@@ -41,7 +41,7 @@ import_liaisons_data <- function(list_files){
                     LSN_SCT = col_character(),
                     LSN_FSC = col_character(),
                     .default = col_double()
-                  ))
-  clean_dataframe(df)
+                  )) 
+  df <- clean_dataframe(df)
   return(df)
 }
