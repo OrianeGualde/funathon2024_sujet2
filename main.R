@@ -39,8 +39,9 @@ plot_airport_line(pax_apt_all,"FMEE" )
 YEARS_LIST  <- as.character(2018:2022)
 MONTHS_LIST <- 1:12
 
-source("R/divers_function.R")
+
 #Exercice 4a: préparer les données avant de faire un beau tableau 
+source("R/divers_function.R")
 exo4a <- create_data_from_input(pax_apt_all, YEARS_LIST[4],MONTHS_LIST[6] )
 
 library(plotly)
@@ -54,13 +55,34 @@ stats_aeroports_table <- stats_aeroports %>%
   ) %>%
   select(name_clean, everything())
 
+#Exercice 4b:
+library(gt)
+source("R/tables.R")
+table_aeroports <- create_table_airports(stats_aeroports_table)
+table_aeroports
+
+#Exercice 5:
+month <- 1
+year <- 2019
+palette <- c("green", "blue", "red")
 
 
+trafic_date <- pax_apt_all %>% 
+  mutate(
+    date = as.Date(paste(anmois, "01", sep=""), format = "%Y%m%d")
+  ) %>%
+  filter(mois == month, an == year)
 
+trafic_aeroports_left <- airports_location %>% 
+  left_join(trafic_date, by = c("Code.OACI" = "apt" )) 
+#On a une ligne en + MAIS elle n'a que des valeurs NA pour toutes les colonnes venant de y.
+#Un left join gardera TOUTES ses lignes et prendra les valeurs de y si'il elles existent
 
+trafic_aeroports <- airports_location %>% 
+  inner_join(trafic_date, by = c("Code.OACI" = "apt" ))
 
-
-
-
-
+library(sf)
+leaflet::leaflet(trafic_aeroports) %>% 
+  leaflet::addTiles() %>%
+  leaflet::addMarkers(popup = ~paste0(Nom, ": ", trafic)) 
 
