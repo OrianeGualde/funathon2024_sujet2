@@ -39,9 +39,28 @@ plot_airport_line(pax_apt_all,"FMEE" )
 YEARS_LIST  <- as.character(2018:2022)
 MONTHS_LIST <- 1:12
 
-create_data_from_input <- function(df, annee, month){
-  data <- df %>% filter(an %in% annee,mois %in% month)
-  return(data)
-}
-
+source("R/divers_function.R")
+#Exercice 4a: préparer les données avant de faire un beau tableau 
 exo4a <- create_data_from_input(pax_apt_all, YEARS_LIST[4],MONTHS_LIST[6] )
+
+library(plotly)
+library(dyplr)
+
+stats_aeroports <- summary_stats_aeroports(pax_apt_all)
+
+#ajout d'une colonne supplémentaire pour une plus beau tableau
+stats_aeroports_table <- stats_aeroports %>%
+  mutate(name_clean = paste0(str_to_sentence(apt_nom), " _(", apt, ")_")
+  ) %>%
+  select(name_clean, everything())
+
+
+
+
+
+
+
+
+
+
+
